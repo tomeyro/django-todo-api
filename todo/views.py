@@ -44,6 +44,14 @@ class TaskView(View):
         task.save()
         return JsonResponse(task.as_json())
 
+    def delete(self, request, id):
+        try:
+            task = Task.objects.get(id=id)
+        except ObjectDoesNotExist:
+            return json_404()
+        task.delete()
+        return JsonResponse({"ok": True})
+
 
 def _set_done(request, id, done):
     if request.method == "POST":
